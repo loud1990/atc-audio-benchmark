@@ -1,0 +1,8 @@
+name: weak_vhf_compound
+description: Plausible weak VHF reception; intended for inclusion in a scenario effect chain.
+effects:
+  - {type: bandpass, low_hz: 300, high_hz: 2800, order: 6}
+  - {type: noise, noise_type: vhf, snr_db: 7, low_hz: 300, high_hz: 3200}
+  - {type: fading, depth_db: 6, rate_hz: 1.2, waveform: sine, randomness: 0.15}
+  - {type: impulse_noise, events_per_second: 0.8, amplitude: 0.25, min_duration_ms: 0.5, max_duration_ms: 3, polarity: random}
+  - {type: soft_clip, drive: 1.4}

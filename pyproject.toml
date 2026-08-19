@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "atc-audio-benchmark"
+version = "1.0.0"
+description = "Reproducible ATC reference-audio degradation showcase builder"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+  "jinja2>=3.1.4",
+  "matplotlib>=3.9.0",
+  "numpy>=2.0.0",
+  "pandas>=2.2.2",
+  "pyarrow>=17.0.0",
+  "pydantic>=2.8.0",
+  "pyyaml>=6.0.1",
+  "scipy>=1.14.0",
+  "soundfile>=0.12.1",
+  "typer>=0.12.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.11.0",
+  "pandas-stubs>=2.2.2",
+  "pytest>=8.3.0",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.6.0",
+  "types-PyYAML>=6.0.12",
+]
+
+[project.scripts]
+atc-benchmark = "atc_benchmark.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/atc_benchmark"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+markers = ["integration: tests requiring external tools", "e2e: end-to-end tests", "regression: DSP regression tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["atc_benchmark"]
+plugins = ["pydantic.mypy"]
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = ["scipy", "scipy.*", "soundfile"]
+ignore_missing_imports = true

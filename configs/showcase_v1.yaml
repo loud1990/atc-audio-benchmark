@@ -1,0 +1,247 @@
+dataset:
+  name: atc_degradation_showcase
+  version: "1.0"
+  output_name: showcase_v1
+  sample_rate: 16000
+  channels: 1
+  sample_width_bits: 16
+  seed: 12345
+  min_duration_sec: 0.25
+  max_duration_sec: 60.0
+  pipeline_version: "1.0.0"
+
+paths:
+  raw_dir: data/raw
+  reference_dir: data/reference
+  output_dir: data/output
+
+normalization:
+  mode: peak_limit
+  peak_dbfs: -1.0
+  target_rms_dbfs: -22.0
+  prevent_clipping: true
+
+segmentation:
+  enabled: false
+  mode: energy
+  threshold_dbfs: -40.0
+  frame_ms: 20.0
+  min_speech_sec: 0.4
+  max_clip_sec: 15.0
+  pre_roll_sec: 0.15
+  post_roll_sec: 0.25
+  merge_gap_sec: 0.35
+
+selection:
+  mode: explicit
+  minimum_duration_sec: 1.0
+  maximum_duration_sec: 15.0
+  maximum_clipping_percentage: 1.0
+  minimum_rms_dbfs: -45.0
+
+# Exactly one output is generated for each scenario below. References are received/source
+# ATC recordings, not pristine speech. Replace ref_001..ref_004 with your canonical files.
+scenarios:
+  - id: "001"
+    name: bandlimit_mild
+    description: Mild 300–3400 Hz communications-channel bandwidth restriction.
+    severity: mild
+    reference: ref_001
+    effects:
+      - {type: bandpass, low_hz: 300, high_hz: 3400, order: 6}
+
+  - id: "002"
+    name: bandlimit_severe
+    description: Severe 500–2200 Hz restriction that removes speech cues.
+    severity: severe
+    reference: ref_001
+    effects:
+      - {type: bandpass, low_hz: 500, high_hz: 2200, order: 8}
+
+  - id: "003"
+    name: static_mild
+    description: Receiver-like static at a controlled 20 dB SNR.
+    severity: mild
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: static, snr_db: 20}
+
+  - id: "004"
+    name: static_moderate
+    description: Receiver-like static at a controlled 10 dB SNR.
+    severity: moderate
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: static, snr_db: 10}
+
+  - id: "005"
+    name: static_severe
+    description: Strong receiver-like static at a controlled 4 dB SNR.
+    severity: severe
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: static, snr_db: 4}
+
+  - id: "006"
+    name: white_noise
+    description: Spectrally flat Gaussian noise at 10 dB SNR.
+    severity: moderate
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: white, snr_db: 10}
+
+  - id: "007"
+    name: pink_noise
+    description: One-over-f spectral noise at 10 dB SNR.
+    severity: moderate
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: pink, snr_db: 10}
+
+  - id: "008"
+    name: vhf_bandlimited_noise
+    description: VHF speech-band receiver noise at 9 dB SNR.
+    severity: moderate
+    reference: ref_002
+    effects:
+      - {type: noise, noise_type: vhf, snr_db: 9, low_hz: 300, high_hz: 3400}
+
+  - id: "009"
+    name: fading_slow
+    description: Slow 6 dB radio-level fading at 1.2 Hz.
+    severity: mild
+    reference: ref_003
+    effects:
+      - {type: fading, depth_db: 6, rate_hz: 1.2, waveform: sine, randomness: 0.1}
+
+  - id: "010"
+    name: fading_severe
+    description: Deep irregular 15 dB fading.
+    severity: severe
+    reference: ref_003
+    effects:
+      - {type: fading, depth_db: 15, rate_hz: 0.8, waveform: random, randomness: 0.35}
+
+  - id: "011"
+    name: dropouts_short
+    description: Multiple 50–150 ms signal interruptions.
+    severity: moderate
+    reference: ref_003
+    effects:
+      - {type: dropout, count: 4, min_duration_ms: 50, max_duration_ms: 150, attenuation_db: 80}
+
+  - id: "012"
+    name: dropouts_heavy
+    description: Fewer, longer 100–400 ms signal interruptions.
+    severity: severe
+    reference: ref_003
+    effects:
+      - {type: dropout, count: 3, min_duration_ms: 100, max_duration_ms: 400, attenuation_db: 90}
+
+  - id: "013"
+    name: beginning_clipped
+    description: First 180 ms removed from detected meaningful activity.
+    severity: moderate
+    reference: ref_004
+    effects:
+      - {type: truncate, edge: beginning, duration_ms: 180, active_threshold_dbfs: -45}
+
+  - id: "014"
+    name: ending_clipped
+    description: Last 300 ms removed from detected meaningful activity.
+    severity: moderate
+    reference: ref_004
+    effects:
+      - {type: truncate, edge: ending, duration_ms: 300, active_threshold_dbfs: -45}
+
+  - id: "015"
+    name: hard_clipping
+    description: Overdriven radio audio with hard sample clipping.
+    severity: severe
+    reference: ref_004
+    effects:
+      - {type: hard_clip, threshold: 0.35, pre_gain_db: 10}
+
+  - id: "016"
+    name: soft_saturation
+    description: Smooth nonlinear tanh saturation.
+    severity: moderate
+    reference: ref_004
+    effects:
+      - {type: soft_clip, drive: 2.2}
+
+  - id: "017"
+    name: agc_pumping
+    description: Envelope-driven aggressive automatic gain-control pumping.
+    severity: moderate
+    reference: ref_003
+    effects:
+      - {type: agc_pumping, attack_ms: 8, release_ms: 350, modulation_depth_db: 10, min_gain_db: -12, max_gain_db: 10, target_dbfs: -18}
+
+  - id: "018"
+    name: static_pops_crackles
+    description: Random short bipolar impulse bursts with recorded timestamps.
+    severity: moderate
+    reference: ref_002
+    effects:
+      - {type: impulse_noise, events_per_second: 1.5, amplitude: 0.45, min_duration_ms: 0.5, max_duration_ms: 5, polarity: random}
+
+  - id: "019"
+    name: electrical_hum
+    description: 60 Hz electrical hum with three harmonics.
+    severity: moderate
+    reference: ref_001
+    effects:
+      - {type: hum, fundamental_hz: 60, harmonics: [1, 2, 3, 4], level_db_below_rms: 14}
+
+  - id: "020"
+    name: interference_tone
+    description: Narrowband heterodyne with gentle frequency drift.
+    severity: moderate
+    reference: ref_001
+    effects:
+      - {type: tone, frequencies_hz: [1250], level_db_below_rms: 10, drift_hz: 18}
+
+  - id: "021"
+    name: adjacent_channel_atc
+    description: A second ATC reference mixed below the primary and radio-band filtered.
+    severity: moderate
+    reference: ref_001
+    effects:
+      - {type: adjacent_speech, secondary_reference: ref_004.wav, relative_level_db: -9, start_offset_sec: 0.2, low_hz: 350, high_hz: 2800}
+
+  - id: "022"
+    name: opus_low_bitrate
+    description: One 10 kbps Opus encode/decode generation.
+    severity: moderate
+    reference: ref_003
+    effects:
+      - {type: codec, codec: opus, bitrate_kbps: 10, generations: 1}
+
+  - id: "023"
+    name: mp3_repeated_low_bitrate
+    description: Three generations of 32 kbps MP3 transcoding.
+    severity: severe
+    reference: ref_003
+    effects:
+      - {type: codec, codec: mp3, bitrate_kbps: 32, generations: 3}
+
+  - id: "024"
+    name: packet_loss
+    description: Bursty 20 ms frame erasures with prior-frame concealment.
+    severity: severe
+    reference: ref_004
+    effects:
+      - {type: packet_loss, frame_ms: 20, loss_probability: 0.10, burst_probability: 0.35, concealment: repeat}
+
+  - id: "025"
+    name: weak_vhf_compound
+    description: Plausible weak VHF reception combining restricted bandwidth, noise, fading, static, and mild saturation.
+    severity: compound
+    reference: ref_002
+    effects:
+      - {type: bandpass, low_hz: 300, high_hz: 2800, order: 6}
+      - {type: noise, noise_type: vhf, snr_db: 7, low_hz: 300, high_hz: 3200}
+      - {type: fading, depth_db: 6, rate_hz: 1.2, waveform: sine, randomness: 0.15}
+      - {type: impulse_noise, events_per_second: 0.8, amplitude: 0.25, min_duration_ms: 0.5, max_duration_ms: 3, polarity: random}
+      - {type: soft_clip, drive: 1.4}

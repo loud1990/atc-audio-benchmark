@@ -1,0 +1,53 @@
+dataset:
+  name: synthetic_atc_fixture_showcase
+  version: "test-1"
+  output_name: showcase_test
+  sample_rate: 16000
+  channels: 1
+  sample_width_bits: 16
+  seed: 12345
+  min_duration_sec: 0.25
+  max_duration_sec: 10
+paths:
+  raw_dir: tests/.artifacts/raw
+  reference_dir: tests/.artifacts/reference
+  output_dir: tests/.artifacts/output
+normalization: {mode: peak_limit, peak_dbfs: -1, prevent_clipping: true}
+segmentation: {enabled: false}
+selection: {mode: explicit}
+scenarios:
+  - id: "001"
+    name: bandlimit_mild
+    description: Mild fixture bandwidth restriction.
+    severity: mild
+    reference: ref_001
+    effects: [{type: bandpass, low_hz: 300, high_hz: 3400}]
+  - id: "002"
+    name: static_moderate
+    description: Exact-SNR fixture static.
+    severity: moderate
+    reference: ref_002
+    effects: [{type: noise, noise_type: static, snr_db: 10}]
+  - id: "003"
+    name: adjacent_channel_atc
+    description: Fixture secondary ATC-like reference.
+    severity: moderate
+    reference: ref_001
+    effects: [{type: adjacent_speech, secondary_reference: ref_004.wav, relative_level_db: -10, start_offset_sec: 0.1}]
+  - id: "004"
+    name: packet_loss
+    description: Fixture frame erasure.
+    severity: severe
+    reference: ref_003
+    effects: [{type: packet_loss, frame_ms: 20, loss_probability: 0.15, burst_probability: 0.35, concealment: repeat}]
+  - id: "005"
+    name: weak_vhf_compound
+    description: Fixture compound corruption.
+    severity: compound
+    reference: ref_002
+    effects:
+      - {type: bandpass, low_hz: 300, high_hz: 2800}
+      - {type: noise, noise_type: vhf, snr_db: 7}
+      - {type: fading, depth_db: 6, rate_hz: 1.2}
+      - {type: impulse_noise, events_per_second: 0.8, amplitude: 0.25}
+      - {type: soft_clip, drive: 1.4}
