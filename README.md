@@ -66,6 +66,10 @@ The initial config contains exactly 25 scenarios, but the runner accepts any pos
 
 ## Outputs
 
+A checked-in set of 25 geographically distributed reference/degraded pairs is available in
+[`examples/regional_atc/`](examples/regional_atc/). Its README documents the area, facility,
+pairing, provenance, and reuse notes for every recording.
+
 ```text
 data/output/showcase_v1/
 ├── reference/             # only references used by this build
