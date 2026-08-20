@@ -1,0 +1,51 @@
+version: 1
+use_scope: public_repository
+description: >-
+  Distinct real U.S. ATC recordings used by the 25-scenario regional showcase.
+  Geographic diversity is documented here; speaker accent or dialect labels are not inferred.
+
+rights:
+  status: public_domain_us
+  note: >-
+    The source recordings are identified as FAA works published by Wikimedia Commons or in
+    NTSB public dockets. NTSB states that public-docket content prepared by U.S. Government
+    employees as part of official duties is not subject to copyright unless otherwise noted.
+    No source used here was marked as third-party copyrighted material. Users should review
+    the linked source pages before redistributing outside the United States.
+  ntsb_policy: https://www.ntsb.gov/about/Pages/Website-Policies.aspx
+  us_copyright_105: https://www.copyright.gov/title17/92chap1.html#105
+
+clip_preparation:
+  output_format: mono 16 kHz PCM16 WAV
+  silence_compaction_threshold_db: -36
+  minimum_removed_silence_sec: 0.40
+  retained_silence_sec: 0.12
+  target_duration_sec: 75
+  minimum_accepted_duration_sec: 60
+
+sources:
+  - {reference: ref_001, scenario_id: "001", area: "New York City, NY", facility: "New York TRACON", original_file: 01_new_york_flight_1549.ogg, source_page: "https://commons.wikimedia.org/wiki/File:Flight_1549_FAA_New_York_TRACON_audio_extract.ogg", source_kind: "FAA recording mirrored by Wikimedia Commons (public domain)"}
+  - {reference: ref_002, scenario_id: "002", area: "Pompano Beach, FL", facility: "PMP Tower", original_file: 02_florida_pompano.mp3, source_page: "https://data.ntsb.gov/Docket?ProjectID=192950", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_003, scenario_id: "003", area: "Huntsville/Elkmont, AL", facility: "HSV West Radar", original_file: 03_alabama_huntsville.mp3, source_page: "https://data.ntsb.gov/Docket?ProjectID=193469", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_004, scenario_id: "004", area: "Burbank, CA", facility: "BUR Local Control", original_file: 04_california_burbank.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=98737", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_005, scenario_id: "005", area: "Houston/Brookshire, TX", facility: "TME Tower", original_file: 05_texas_houston.zip, source_page: "https://data.ntsb.gov/Docket?ProjectID=104129", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_006, scenario_id: "006", area: "San Diego, CA", facility: "San Diego-area ATC", original_file: 06_california_san_diego.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=96448", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_007, scenario_id: "007", area: "Newark/Colonia, NJ", facility: "New York TRACON N90", original_file: 07_new_jersey_n90.zip, source_page: "https://data.ntsb.gov/Docket?ProjectID=100503", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_008, scenario_id: "008", area: "Asheville/Fletcher, NC", facility: "KAVL Ground/Tower/Approach", original_file: 08_north_carolina_asheville.mp3, source_page: "https://data.ntsb.gov/Docket?ProjectID=100753", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_009, scenario_id: "009", area: "St. Augustine, FL", facility: "Local Control", original_file: 09_florida_st_augustine.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=193984", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_010, scenario_id: "010", area: "Kissimmee/Micanopy, FL", facility: "ISM", original_file: 10_florida_kissimmee.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=193387", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_011, scenario_id: "011", area: "Oklahoma City, OK", facility: "Tower Control", original_file: 11_oklahoma_oklahoma_city_tower.mp3, source_page: "https://data.ntsb.gov/Docket?ProjectID=193501", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_012, scenario_id: "012", area: "Kellyton, AL", facility: "Alabama-area ATC", original_file: 12_alabama_kellyton.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=106451", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_013, scenario_id: "013", area: "Dayton, VA", facility: "Virginia-area ATC", original_file: 13_virginia_dayton.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=106565", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_014, scenario_id: "014", area: "Alpharetta, GA", facility: "Atlanta-area ATC replay", original_file: 14_georgia_alpharetta.mp4, source_page: "https://data.ntsb.gov/Docket?ProjectID=106230", source_kind: "NTSB public docket / FAA ATC audio/radar replay"}
+  - {reference: ref_015, scenario_id: "015", area: "Duluth, MN", facility: "Duluth ATC", original_file: 15_minnesota_duluth.mp4, source_page: "https://data.ntsb.gov/Docket?ProjectID=192414", source_kind: "NTSB public docket / FAA ATC audio/radar replay"}
+  - {reference: ref_016, scenario_id: "016", area: "Portland/Arundel, ME", facility: "PWM Radar", original_file: 16_maine_portland.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=106070", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_017, scenario_id: "017", area: "Chandler, AZ", facility: "Local Control", original_file: 17_arizona_chandler.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=104018", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_018, scenario_id: "018", area: "Worcester/Leicester, MA", facility: "ORH ATC", original_file: 18_massachusetts_worcester.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=102592", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_019, scenario_id: "019", area: "Knoxville, TN", facility: "TYS Local Control", original_file: 19_tennessee_knoxville.zip, source_page: "https://data.ntsb.gov/Docket?ProjectID=194081", source_kind: "NTSB public docket / certified FAA ATC audio"}
+  - {reference: ref_020, scenario_id: "020", area: "Wilmington, DE", facility: "ILG Local Control", original_file: 20_delaware_wilmington.wma, source_page: "https://data.ntsb.gov/Docket?ProjectID=100075", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_021, scenario_id: "021", area: "Sarasota, FL", facility: "SRQ Local Control", original_file: 21_florida_sarasota.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=106768", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_022, scenario_id: "022", area: "Seligman, AZ", facility: "Area F Sector 8", original_file: 22_arizona_sector8.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=105929", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_023, scenario_id: "023", area: "Louisville, KY", facility: "SDF Local Control East", original_file: 23_kentucky_louisville.wav, source_page: "https://data.ntsb.gov/Docket?NTSBNumber=DCA26MA024", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_024, scenario_id: "024", area: "Fairbanks, AK", facility: "FAI Local Control", original_file: 24_alaska_fairbanks.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=103719", source_kind: "NTSB public docket / FAA ATC audio"}
+  - {reference: ref_025, scenario_id: "025", area: "Maui/Kaupo, HI", facility: "Hawaii Local Control", original_file: 25_hawaii_maui.wav, source_page: "https://data.ntsb.gov/Docket?ProjectID=106468", source_kind: "NTSB public docket / FAA ATC audio"}
